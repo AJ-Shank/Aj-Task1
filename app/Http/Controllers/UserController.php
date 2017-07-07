@@ -29,4 +29,25 @@ class UserController extends Controller
     //  print_r($all_users);
      return view('userProfile', array('details' => $all_users));
   }
+
+  public function index(){
+    $join=details::with('profile')->get();
+    // echo $join;
+    $details= json_decode($join,true);
+
+    // print_r($details) ;
+    $all_users=array();
+    foreach($details as $unit){
+      $user=array();
+      $user['id']= $unit['id'];
+      $user['name']= $unit['name'];
+      $user['email']= $unit['email'];
+      $user['age']= $unit['profile']['age'];
+      $user['DOB']= $unit['profile']['DOB'];
+      $all_users[]=$user;
+    }
+
+    // print_r($all_users);
+    return view('userProfile', array('details' => $all_users));
+  }
 }

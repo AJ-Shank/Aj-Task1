@@ -9,6 +9,6 @@ class details extends Model
     protected $fillable = array('name', 'email');
 
     public function profile(){
-      return $this->hasOne('profile');
+      return $this->hasOne('App\profile','id');
     }
 }
