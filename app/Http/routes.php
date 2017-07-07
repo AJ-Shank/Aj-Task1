@@ -15,6 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/user-profiles', function (){
-  return view('userProfile');
-});
+Route::resource('/user-profiles', 'UserController');
