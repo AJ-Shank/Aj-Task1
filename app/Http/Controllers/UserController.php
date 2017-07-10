@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Http\Response;
 use App\Http\Requests;
 
 use App\User;
@@ -13,16 +13,8 @@ use Log;
 class UserController extends Controller
 {
   public function show($id){
-     $User= json_decode(User::find($id));
-     $profile= json_decode(profile::find($id));
-     $user = array();
-     foreach ($User as $key => $value) {
-       $user[$key]=$value;
-     }
-     foreach ($profile as $key => $value) {
-       $user[$key]=$value;
-     }
-     $all_users=array($user,);
+     $User= json_decode(User::with('profile')->find($id),true);
+     $all_users=array($User,);
      return view('userProfile', array('details' => $all_users,'next'=>'#','prev'=>'#'));
   }
 
@@ -38,16 +30,8 @@ class UserController extends Controller
     $totalPages=ceil($count/10);
     $next=($data['page']>=$totalPages)? '#':$url.'?page='.($data['page']+1);
     $all_users=array();
-    foreach($User as $unit){
-      $user=array();
-      $user['id']= $unit['id'];
-      $user['name']= $unit['name'];
-      $user['email']= $unit['email'];
-      $user['age']= $unit['profile']['age'];
-      $user['DOB']= $unit['profile']['DOB'];
-      $all_users[]=$user;
-    }
-     return view('userProfile', array('details' => $all_users,'next'=>$next,'prev'=>$prev));
+
+     return view('userProfile', array('details' => $User,'next'=>$next,'prev'=>$prev));
   }
 
   public function update(Request $request,$id){
@@ -57,6 +41,6 @@ class UserController extends Controller
     if($data['record']=='age') $update->age=$data['value'];
     if($data['record']=='dob') $update->DOB=$data['value'];
     $update->save();
-
+    return response()->json($update);
   }
 }

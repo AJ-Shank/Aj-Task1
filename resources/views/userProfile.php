@@ -49,10 +49,8 @@
                     <th scope="row"><?=$user['id']?></th>
                     <td><?=$user['name']?></td>
                     <td><?=$user['email']?></td>
-                    <!-- <td><?=$user['age']?></td>
-                    <td><?=$user['DOB']?></td> -->
-                    <td><input id='age' type="number" value="<?=$user['age']?>" onchange="changeData('<?=$user['id']?>','age',this.value)"></td>
-                    <td><input id='dob' type="date" value="<?=$user['DOB']?>" onchange="changeData('<?=$user['id']?>','dob',this.value)"></td>
+                    <td><input id='age' type="number" value="<?=$user['profile']['age']?>" onchange="changeData('<?=$user['id']?>','age',this.value)"></td>
+                    <td><input id='dob' type="date" value="<?=$user['profile']['DOB']?>" onchange="changeData('<?=$user['id']?>','dob',this.value)"></td>
                   </tr>
                   <?php
                 } ?>
@@ -65,7 +63,8 @@
             </center>
           </div>
         </div><!-- /.container -->
-
+        <div id='msg' class="alert alert-danger" role="alert" style="position:fixed;bottom:25px;margin-left:auto;visibility:hidden;">
+        </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
@@ -80,7 +79,9 @@
                 url:'/user-profiles/'+id,
                 data:{'record':record,'value':value, "_token": "{{ csrf_token() }}"},
                 success:function(data){
-                   $("#msg").html(data.msg);
+                  $("#msg").css('visibility','visible');
+                   $("#msg").html(record+' of user '+id+' changed to '+value);
+                   setTimeout(function(){ $("#msg").css('visibility','hidden'); }, 2000);
                 }
              });
       }
