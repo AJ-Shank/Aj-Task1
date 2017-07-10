@@ -30,12 +30,18 @@ class UserController extends Controller
      return view('userProfile', array('details' => $all_users));
   }
 
-  public function index(){
-    $join=details::with('profile')->get();
+  public function index(Request $request){
+    $data=$request->all();
+    if(!isset($data['page'])) $data['page'] =1;
+    $offset=($data['page']-1)*10;
+
+    $join=details::with('profile')->skip($offset)->take(10)->get();
     // echo $join;
     $details= json_decode($join,true);
-
-    // print_r($details) ;
+    $url = $request->url();
+    $prev=($data['page']==1)? '#':$url.'?page='.($data['page']-1);
+    //echo $prev;
+    $next=$url.'?page='.($data['page']+1);
     $all_users=array();
     foreach($details as $unit){
       $user=array();
@@ -46,8 +52,6 @@ class UserController extends Controller
       $user['DOB']= $unit['profile']['DOB'];
       $all_users[]=$user;
     }
-
-    // print_r($all_users);
-    return view('userProfile', array('details' => $all_users));
+     return view('userProfile', array('details' => $all_users,'next'=>$next,'prev'=>$prev));
   }
 }
