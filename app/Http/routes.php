@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::resource('/user-profiles', 'UserController');
+Route::post('/update/{id}',['uses'=>'UserController@updateRecord']);

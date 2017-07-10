@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\details;
 use App\profile;
 
+use Log;
 class UserController extends Controller
 {
   public function show($id){
@@ -53,5 +54,15 @@ class UserController extends Controller
       $all_users[]=$user;
     }
      return view('userProfile', array('details' => $all_users,'next'=>$next,'prev'=>$prev));
+  }
+
+  public function update(Request $request,$id){
+    Log::info("Function executed");
+    $data=$request->all();
+    $update=profile::find($id);
+    if($data['record']=='age') $update->age=$data['value'];
+    if($data['record']=='dob') $update->DOB=$data['value'];
+    $update->save();
+
   }
 }

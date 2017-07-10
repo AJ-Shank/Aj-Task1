@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <link rel="stylesheet" href="/assets/css/starter.css">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- <script src = "/assets/jquery-3.2.1.min.js"></script> -->
 
   </head>
 
@@ -21,8 +22,8 @@
           <a class="navbar-brand" href="#">Navbar</a>
 
           <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
+                <ul class="navbar-nav mr-auto">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
               </li>
             </ul>
@@ -48,8 +49,10 @@
                     <th scope="row"><?=$user['id']?></th>
                     <td><?=$user['name']?></td>
                     <td><?=$user['email']?></td>
-                    <td><?=$user['age']?></td>
-                    <td><?=$user['DOB']?></td>
+                    <!-- <td><?=$user['age']?></td>
+                    <td><?=$user['DOB']?></td> -->
+                    <td><input id='age' type="number" value="<?=$user['age']?>" onchange="changeData('<?=$user['id']?>','age',this.value)"></td>
+                    <td><input id='dob' type="date" value="<?=$user['DOB']?>" onchange="changeData('<?=$user['id']?>','dob',this.value)"></td>
                   </tr>
                   <?php
                 } ?>
@@ -63,9 +66,25 @@
           </div>
         </div><!-- /.container -->
 
-
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+    <script>
+      function changeData(id,record,value){
+        console.log("user=" + id+ "&record="+record+"&value="+value);
+        $.ajax({
+
+                type:'PUT',
+                url:'/user-profiles/'+id,
+                data:{'record':record,'value':value, "_token": "{{ csrf_token() }}"},
+                success:function(data){
+                   $("#msg").html(data.msg);
+                }
+             });
+      }
+    </script>
+
   </body>
 </html>
