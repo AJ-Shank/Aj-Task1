@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-use App\details;
+use App\User;
 
 use App\profile;
 
@@ -29,20 +29,21 @@ class Task1Seeder extends Seeder {
     public function run() {
 
         // clear our database ------------------------------------------
-        DB::table('details')->delete();
         DB::table('profiles')->delete();
+        DB::table('users')->delete();
 
-        $bearLawly = Details::create(array(
+
+        $bearLawly = User::create(array(
             'name'         => 'Lawly',
             'email'         => 'Grizzly@123',
         ));
 
-        $bearCerms = Details::create(array(
+        $bearCerms = User::create(array(
             'name'         => 'Cerms',
             'email'         => 'Black@123',
         ));
 
-        $bearAdobot = Details::create(array(
+        $bearAdobot = User::create(array(
             'name'         => 'Adobot',
             'email'         => 'Polar@123',
         ));

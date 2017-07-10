@@ -9,6 +9,6 @@ class profile extends Model
     protected $fillable = array('age', 'DOB');
 
     public function details(){
-      return $this->belongsTo('details');
+      return $this->belongsTo('User');
     }
 }
