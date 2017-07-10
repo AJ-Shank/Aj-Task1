@@ -63,7 +63,7 @@
             </center>
           </div>
         </div><!-- /.container -->
-        <div id='msg' class="alert alert-danger" role="alert" style="position:fixed;bottom:25px;margin-left:auto;visibility:hidden;">
+        <div id='msg' class="alert alert-danger" role="alert" style="position:absolute;bottom:25px;margin-left:auto;margin-right:auto;width:100%;text-align:center;visibility:hidden;">
         </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script> -->
