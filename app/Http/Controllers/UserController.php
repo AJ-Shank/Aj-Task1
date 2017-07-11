@@ -19,10 +19,7 @@ class UserController extends Controller
   public function index(Request $request){
     // $data=$request->all();
 
-    // $prev=($data['page']==1)? '#':$url.'?page='.($data['page']-1);
-    // $count=User::count();
-    // $totalPages=ceil($count/10);
-    // $next=($data['page']>=$totalPages)? '#':$url.'?page='.($data['page']+1);
+    // 
     $join=User::with('profile');
     $join=$join->take(10)->get();
     $User= json_decode($join,true);

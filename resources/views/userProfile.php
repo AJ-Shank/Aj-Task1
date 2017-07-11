@@ -64,8 +64,8 @@
         </table>
       </div>
       <center>
-        <a class='btn btn-default' href='#'><span class="fa fa-chevron-left"> </span> Prev </a>
-        <a class='btn btn-default' href='#'> Next <span class="fa fa-chevron-right"></span></a>
+        <a class='btn btn-default' id=prev href='#'><span class="fa fa-chevron-left"> </span> Prev </a>
+        <a class='btn btn-default' id=next href='#'> Next <span class="fa fa-chevron-right"></span></a>
       </center>
     </div>
   </div><!-- /.container -->
@@ -125,6 +125,8 @@
         }
         $("#usertable").html('');
         $("#usertable").html(content);
+        $("#prev").attr('href',data['prev']);
+        $("#next").attr('href',data['next']);
       }
     });
   }

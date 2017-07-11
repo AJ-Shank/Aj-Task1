@@ -35,7 +35,21 @@ class AjaxController extends Controller
     }
     $join=$join->skip($offset)->take(10)->get();
     $url= 'user-profiles?'.http_build_query($data);
-    $data=array('url'=>$url,'data'=>$join);
+    $prev="#";$next="#";
+    if($data['page']>1) {
+      $data['page']-=1;
+      $prev= 'user-profiles?'.http_build_query($data);
+      $data['page']+=1;
+    }
+    $count=User::count();
+    $totalPages=ceil($count/10);
+    if($data['page']<$totalPages){
+      $data['page']+=1;
+      $next= 'user-profiles?'.http_build_query($data);
+      $data['page']-=1;
+    }
+
+    $data=array('url'=>$url,'data'=>$join,'prev'=>$prev,'next'=>$next);
     // $User= json_decode($data,true);
     return response()->json($data);
   }
