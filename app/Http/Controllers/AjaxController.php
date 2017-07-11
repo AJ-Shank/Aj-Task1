@@ -29,4 +29,9 @@ class AjaxController extends Controller
     // $User= json_decode($data,true);
     return response()->json($data);
   }
+  public function show($id){
+    $join=User::with('profile')->find($id);
+    $data=array('url'=>$id,'data'=>array($join));
+    return response()->json($data);
+  }
 }

@@ -13,11 +13,7 @@ use Log;
 class UserController extends Controller
 {
   public function show($id){
-     $User= json_decode(User::with('profile')->find($id),true);
-    //  $User['profile']['age']=profile::find($id)->age;
-     $all_users=array($User,);
-    //  print_r($all_users);
-     return view('userProfile', array('details' => $all_users,'next'=>'#','prev'=>'#'));
+     return view('userProfile', array('id' => $id));
   }
 
   public function index(Request $request){

@@ -16,4 +16,4 @@ Route::get('/', function () {
 });
 
 Route::resource('/user-profiles', 'UserController');
-Route::get('/ajax-profiles',['uses'=>'AjaxController@index']);
+Route::resource('/ajax-profiles','AjaxController');
