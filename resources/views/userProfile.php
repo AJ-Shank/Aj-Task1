@@ -46,10 +46,11 @@
                 <?php foreach ($details as $user) {
                   ?>
                   <tr>
-                    <th scope="row"><?=$user['id']?></th>
+                    <th scope="row"><a href="/user-profiles/<?=$user['id']?>"><?=$user['id']?></a></th>
                     <td><?=$user['name']?></td>
                     <td><?=$user['email']?></td>
-                    <td><input id='age' type="number" value="<?=$user['profile']['age']?>" onchange="changeData('<?=$user['id']?>','age',this.value)"></td>
+                    <td id="age_<?=$user['id']?>"><?=$user['profile']['age']?></td>
+                    <!-- <td><input id='age' type="number" value="<?=$user['profile']['age']?>" onchange="changeData('<?=$user['id']?>','age',this.value)"></td> -->
                     <td><input id='dob' type="date" value="<?=$user['profile']['DOB']?>" onchange="changeData('<?=$user['id']?>','dob',this.value)"></td>
                   </tr>
                   <?php
@@ -80,7 +81,8 @@
                 data:{'record':record,'value':value, "_token": "{{ csrf_token() }}"},
                 success:function(data){
                   $("#msg").css('visibility','visible');
-                   $("#msg").html(record+' of user '+id+' changed to '+value);
+                  $("#age_"+id).html(data['age']);
+                   $("#msg").html(record+' of user '+id+' changed to '+value+' and new age is '+data['age']);
                    setTimeout(function(){ $("#msg").css('visibility','hidden'); }, 2000);
                 }
              });
