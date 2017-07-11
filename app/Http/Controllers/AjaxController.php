@@ -33,7 +33,7 @@ class AjaxController extends Controller
           $now=Carbon::now()->subYears($request->input('upper', '0'));
           $join=$join->where('DOB','>=', $now );
     }
-    $join=$join->skip($offset)->take(10)->get();
+    $table=$join->skip($offset)->take(10)->get();
     $url= 'user-profiles?'.http_build_query($data);
     $prev="#";$next="#";
     if($data['page']>1) {
@@ -41,7 +41,7 @@ class AjaxController extends Controller
       $prev= 'user-profiles?'.http_build_query($data);
       $data['page']+=1;
     }
-    $count=User::count();
+    $count=$join->count();
     $totalPages=ceil($count/10);
     if($data['page']<$totalPages){
       $data['page']+=1;
@@ -49,7 +49,7 @@ class AjaxController extends Controller
       $data['page']-=1;
     }
 
-    $data=array('url'=>$url,'data'=>$join,'prev'=>$prev,'next'=>$next);
+    $data=array('url'=>$url,'data'=>$table,'prev'=>$prev,'next'=>$next);
     // $User= json_decode($data,true);
     return response()->json($data);
   }
