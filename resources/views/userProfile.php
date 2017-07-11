@@ -36,10 +36,10 @@
               <thead class="thead-inverse">
                 <tr>
                   <th>#</th>
-                  <th>Name</th>
+                  <th><a href="<?=Request::url()?>?sort=name" >Name</th>
                   <th>Email</th>
                   <th>Age</th>
-                  <th>Date of Birth</th>
+                  <th><a href="<?=Request::url()?>?sort=DOB" >Date of Birth</a></th>
                 </tr>
               </thead>
               <tbody>

@@ -24,18 +24,18 @@ class UserController extends Controller
     $data=$request->all();
     if(!isset($data['page'])) $data['page'] =1;
     $offset=($data['page']-1)*10;
-    $join=User::with('profile')->skip($offset)->take(10)->get();
-    $User= json_decode($join,true);
-    // foreach ($User as &$user) {
-    //   $user['profile']['age']=profile::find($user['id'])->age;
-    // }
-    $url = $request->url();
+    $url = $request->Url();
     $prev=($data['page']==1)? '#':$url.'?page='.($data['page']-1);
     $count=User::count();
     $totalPages=ceil($count/10);
     $next=($data['page']>=$totalPages)? '#':$url.'?page='.($data['page']+1);
-    //print_r($User);
-     return view('userProfile', array('details' => $User,'next'=>$next,'prev'=>$prev));
+    if($request->has('sort')) {
+        $prev=$prev.'&sort='.$request->input('sort', 'id');
+        $next=$next.'&sort='.$request->input('sort', 'id');
+        $join=User::with('profile')->join('profiles','users.id', '=', 'profiles.id')->orderBy($request->input('sort', 'id'))->skip($offset)->take(10)->get();
+    } else $join=User::with('profile')->skip($offset)->take(10)->get();
+    $User= json_decode($join,true);
+    return view('userProfile', array('details' => $User,'next'=>$next,'prev'=>$prev));
   }
 
   public function update(Request $request,$id){
