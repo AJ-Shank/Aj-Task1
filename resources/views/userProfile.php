@@ -37,14 +37,14 @@
         <div class="container">
           <div class="row">
             <div class="col-md-9"><input class="form-control" placeholder="Search" id='search' ></div>
-            <div class="col-md-3"><button type="submit" class="btn btn-success btn-block" >Submit</button></div>
+            <div class="col-md-3"><button type="submit" class="btn btn-success btn-block"  onclick="getdata('search',document.getElementById('search').value)">Submit</button></div>
           </div>
           <label for="amount">Age range:</label>
           <input type="text" id="lower" name="lower" readonly style="border:0; color:#f6931f; font-weight:bold; width:25px;"> Years
           <strong>-</strong>
           <input type="text" id="upper" name="upper" readonly style="border:0; color:#f6931f; font-weight:bold; width:25px;">Years
           <div class="row" ><div class="col-md-9" id="slider-range"></div>
-          <div class="col-md-3"><button class="btn btn-default" type="submit">Add Filter</button> </div>
+          <div class="col-md-3"><button class="btn btn-default" type="submit" onclick="ageRange()">Add Filter</button> </div>
         </div>
       </div>
       <?php } ?>
@@ -78,6 +78,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
   <script>
+  function ageRange(){
+     window.history.pushState('', '', window.location.search+'&lower='+ document.getElementById('lower').value);
+    getdata('upper',document.getElementById('upper').value);
+  }
   function changeData(id,record,value){
     console.log("user=" + id+ "&record="+record+"&value="+value);
     $.ajax({
@@ -102,7 +106,7 @@
       prev[z[0]]=z[1];
     }
     prev[key]=value;
-    // console.log(prev);
+    console.log(prev);
     $.ajax({
       type:'get',
       url:'/ajax-profiles/<?php if(isset($id)) echo $id; ?>',

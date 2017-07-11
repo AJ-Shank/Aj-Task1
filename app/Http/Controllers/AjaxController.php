@@ -10,7 +10,7 @@ use App\User;
 use App\profile;
 
 use Log;
-
+use Carbon\Carbon;
 class AjaxController extends Controller
 {
   public function index(Request $request){
@@ -18,10 +18,20 @@ class AjaxController extends Controller
     Log::info($data);
     if(!isset($data['page'])) $data['page'] =1;
     $offset=($data['page']-1)*10;
-    $join=User::with('profile');
+    $join=User::with('profile')->join('profiles','users.id', '=', 'profiles.id');
+    if($request->has('search')) {
+        $join=$join->where('name', 'like', '%' . $request->input('search','') . '%');
+    }
     if($request->has('sort')) {
-
-        $join=$join->join('profiles','users.id', '=', 'profiles.id')->orderBy($request->input('sort', 'user.id'));
+        $join=$join->orderBy($request->input('sort', 'user.id'));
+    }
+    if($request->has('lower')) {
+          $now=Carbon::now()->subYears($request->input('lower', '0'));
+          $join=$join->where('DOB','<=', $now );
+    }
+    if($request->has('upper')) {
+          $now=Carbon::now()->subYears($request->input('upper', '0'));
+          $join=$join->where('DOB','>=', $now );
     }
     $join=$join->skip($offset)->take(10)->get();
     $url= 'user-profiles?'.http_build_query($data);
