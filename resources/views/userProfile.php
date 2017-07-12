@@ -37,14 +37,15 @@
         <div class="container">
           <div class="row">
             <div class="col-md-9"><input class="form-control" placeholder="Search" id='search' ></div>
-            <div class="col-md-3"><button type="submit" class="btn btn-success btn-block"  onclick="getdata('search',document.getElementById('search').value)">Submit</button></div>
+            <div class="col-md-3"><button for="search" type="submit" class="btn btn-success btn-block"  onclick="getdata('search',document.getElementById('search').value)">Submit</button></div>
           </div>
           <label for="amount">Age range:</label>
           <input type="text" id="lower" name="lower" readonly style="border:0; color:#f6931f; font-weight:bold; width:25px;"> Years
           <strong>-</strong>
           <input type="text" id="upper" name="upper" readonly style="border:0; color:#f6931f; font-weight:bold; width:25px;">Years
-          <div class="row" ><div class="col-md-9" id="slider-range"></div>
-          <div class="col-md-3"><button class="btn btn-default" type="submit" onclick="ageRange()">Add Filter</button> </div>
+          <div class="row" ><div class="col-md-8" id="slider-range"></div>
+          <div class="col-md-2"><button class="btn btn-default" type="submit" onclick="ageRange()">Add Filter</button> </div>
+          <div class="col-md-2"><button class="btn btn-warning" type="submit" onclick="removefilter()">Remove all Filters</button> </div>
         </div>
       </div>
       <?php } ?>
@@ -78,6 +79,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
   <script>
+  function removefilter(){
+    window.history.pushState('','','/user-profiles');
+    getdata('','');
+  }
   function ageRange(){
      window.history.pushState('', '', window.location.search+'&lower='+ document.getElementById('lower').value);
     getdata('upper',document.getElementById('upper').value);
