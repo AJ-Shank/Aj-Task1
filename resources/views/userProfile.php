@@ -120,13 +120,13 @@
     }
     if(key=='sort' && prev.hasOwnProperty(key)){
       if(prev[key]==value){
-        if(!prev.hasOwnProperty('order')) prev['order']='desc';
+        if(!prev.hasOwnProperty('order')) prev['order']='DESC';
         else {
-          if(prev['order']=='desc') prev['order']='asc';
-          else prev['order']='desc';
+          if(prev['order']=='desc') prev['order']='ASC';
+          else prev['order']='DESC';
         }
       }else{
-        prev['order']='asc'
+        prev['order']='ASC';
       }
     }
     prev[key]=value;

@@ -17,3 +17,7 @@ Route::get('/', function () {
 
 Route::resource('/user-profiles', 'UserController');
 Route::resource('/ajax-profiles','AjaxController');
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
