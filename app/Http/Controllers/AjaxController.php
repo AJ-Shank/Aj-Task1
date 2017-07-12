@@ -23,7 +23,7 @@ class AjaxController extends Controller
         $join=$join->where('name', 'like', '%' . $request->input('search','') . '%');
     }
     if($request->has('sort')) {
-        $join=$join->orderBy($request->input('sort', 'user.id'));
+        $join=$join->orderBy($request->input('sort', 'user.id'),$request->input('order', 'asc'));
     }
     if($request->has('lower')) {
           $now=Carbon::now()->subYears($request->input('lower', '0'));

@@ -40,9 +40,9 @@
             <div class="col-md-3"><button for="search" type="submit" class="btn btn-success btn-block"  onclick="getdata('search',document.getElementById('search').value)">Submit</button></div>
           </div>
           <label for="amount">Age range:</label>
-          <input type="text" id="lower" name="lower" readonly style="border:0; color:#f6931f; font-weight:bold; width:25px;"> Years
+          <input type="text" id="lower" name="lower" value="10" readonly style="border:0; color:#f6931f; font-weight:bold; width:25px;"> Years
           <strong>-</strong>
-          <input type="text" id="upper" name="upper" readonly style="border:0; color:#f6931f; font-weight:bold; width:25px;">Years
+          <input type="text" id="upper" name="upper" value="70" readonly style="border:0; color:#f6931f; font-weight:bold; width:25px;">Years
           <div class="row" ><div class="col-md-8" id="slider-range"></div>
           <div class="col-md-2"><button class="btn btn-default" type="submit" onclick="ageRange()">Add Filter</button> </div>
           <div class="col-md-2"><button class="btn btn-warning" type="submit" onclick="removefilter()">Remove all Filters</button> </div>
@@ -117,6 +117,17 @@
     for (var i=0;i<y.length;i++){
       var z=y[i].split('=');
       prev[z[0]]=z[1];
+    }
+    if(key=='sort' && prev.hasOwnProperty(key)){
+      if(prev[key]==value){
+        if(!prev.hasOwnProperty('order')) prev['order']='desc';
+        else {
+          if(prev['order']=='desc') prev['order']='asc';
+          else prev['order']='desc';
+        }
+      }else{
+        prev['order']='asc'
+      }
     }
     prev[key]=value;
     console.log(prev);
