@@ -91,8 +91,16 @@
       data:{'record':record,'value':value, "_token": "{{ csrf_token() }}"},
       success:function(data){
         $("#msg").css('visibility','visible');
-        $("#age_"+id).html(data['age']);
-        $("#msg").html(record+' of user '+id+' changed to '+value+' and new age is '+data['age']);
+        if(data['status']=='success'){
+          $("#age_"+id).html(data['update']['age']);
+          $("#msg").removeClass();
+          $("#msg").addClass('alert alert-success')
+          $("#msg").html(data['msg']);
+        }else{
+          $("#msg").removeClass();
+          $("#msg").addClass('alert alert-danger')
+          $("#msg").html(data['msg']);
+        }
         setTimeout(function(){ $("#msg").css('visibility','hidden'); }, 2000);
       }
     });
@@ -120,7 +128,7 @@
           content+='<td>'+data['data'][i]['name']+'</td>';
           content+='<td>'+data['data'][i]['email']+'</td>';
           content+='<td id="age_'+data['data'][i]['id']+'">'+data['data'][i]['profile']['age']+'</td>';
-          content+='<td><input id="dob" type="date" value="'+data['data'][i]['profile']['DOB']+'" onchange="changeData(\''+data['data'][i]['id']+'\',\'dob\',this.value)"></td>'
+          content+='<td><input class="userdob" id="dob" type="date" max="2017-01-01" value="'+data['data'][i]['profile']['DOB']+'" onchange="changeData(\''+data['data'][i]['id']+'\',\'dob\',this.value)"></td>'
           content+='</tr>'
         }
         $("#usertable").html('');
@@ -129,6 +137,21 @@
         $("#next").attr('href',data['next']);
       }
     });
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+     if(dd<10){
+            dd='0'+dd
+        }
+      if(mm<10){
+          mm='0'+mm
+      }
+    today = yyyy+'-'+mm+'-'+dd;
+    var c = document.getElementsByClassName('userdob');
+    for(var i=0;i<c.length;i++){
+      c[i].setAttribute("max", today);
+    }
   }
   </script>
   <script>

@@ -8,7 +8,7 @@ use App\Http\Requests;
 
 use App\User;
 use App\profile;
-
+use Carbon\Carbon;
 use Log;
 class UserController extends Controller
 {
@@ -19,7 +19,7 @@ class UserController extends Controller
   public function index(Request $request){
     // $data=$request->all();
 
-    // 
+    //
     $join=User::with('profile');
     $join=$join->take(10)->get();
     $User= json_decode($join,true);
@@ -30,12 +30,18 @@ class UserController extends Controller
     Log::info("Function executed");
     $data=$request->all();
     $update=profile::find($id);
-    //if($data['record']=='age') $update->age=$data['value'];
-    if($data['record']=='dob') $update->DOB=$data['value'];
-    $update->save();
-    // print_r($update);
-    // echo response()->json($update);
-    return response()->json($update);
+    $date=new Carbon($data['value']);
+    if($date->lte(Carbon::now())){
+      if($data['record']=='dob') $update->DOB=$data['value'];
+      $update->save();
+      $msg="Date of Birth of user ".$update->id." changed to ".$update->DOB.". New age is ".$update->age;
+      $status='success';
+    }else{
+      $msg="Date of Birth cannot be greater than today";
+      $status='error';
+    }
+    $res=array('update'=>$update,'msg'=>$msg,'status'=>$status);
+    return response()->json($res);
   }
 
 
