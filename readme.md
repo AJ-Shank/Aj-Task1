@@ -4,7 +4,7 @@
 Create a UI table using laravel view and boostrap
 |Name|Email|Age|DOB - Initially with dummy data
 Show the table on a url /user-profiles
-- Today EOD
+-
 
 2. 
 Create a model to hold User data
